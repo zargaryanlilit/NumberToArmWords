@@ -1,6 +1,12 @@
 from mapping import mapping
 
 
+def _clean_text(text: str) -> str:
+    if text[-4:] == 'տասն':
+        text = ''.join([text[:-1], 'ը'])
+    return text
+
+
 def num_to_word(num: str) -> str:
     """"""
     num_len = len(num)
@@ -11,7 +17,7 @@ def num_to_word(num: str) -> str:
             word = ''
     elif num_len == 2:
         if num[0] != '0':
-            word = mapping[num_len][str(int(num[0])*10)] + num_to_word(num[1:])
+            word = mapping[num_len][str(int(num[0]) * 10)] + num_to_word(num[1:])
         else:
             word = num_to_word(num[1:])
     elif num_len == 3:
@@ -30,4 +36,4 @@ def num_to_word(num: str) -> str:
             word = num_to_word(num[:i]) + num_to_word(num[i:])
     else:
         raise Exception('Too big number')
-    return word
+    return _clean_text(word)
